@@ -1,0 +1,42 @@
+format elf64
+public _start
+
+include 'func.asm'
+
+len = 1024
+
+section '.bss' writable
+
+  buffer rb len
+
+section '.text' executable
+
+_start:
+    pop rcx
+    cmp rcx, 2
+    jne .l1
+   ;;Открываем каталог
+   mov rax, 2
+   mov rdi, [rsp+8]
+   mov rsi, 65536
+   syscall
+   cmp rax, 0
+   jl .l1
+   
+   ;Сохраняем файловый дескриптор
+   mov r8, rax
+
+   ;;Прочитаем первую структуру
+   mov rax, 78
+   mov rdi, r8
+   mov rsi, buffer
+   mov rdx, len
+   syscall
+   
+   mov rax, 3
+   mov rdi, r8
+   syscall
+
+
+.l1:
+  call exit
