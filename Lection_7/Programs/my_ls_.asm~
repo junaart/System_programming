@@ -1,0 +1,53 @@
+format elf64
+public _start
+
+include 'func.asm'
+
+len = 1024
+len_begin = 18
+
+section '.bss' writable
+
+  buffer rb len
+  buf rb len_begin
+
+section '.text' executable
+
+_start:
+    pop rcx
+    cmp rcx, 2
+    jne .l1
+
+   ;;Открываем каталог на чтение
+   mov rax, 2
+   mov rdi, [rsp+8]
+   mov rsi, 65536
+   syscall
+   cmp rax, 0
+   jl .l1
+   
+   ;Сохраняем файловый дескриптор
+   mov r8, rax
+
+  .loop:
+   
+   ;;Читаем начало структуры linux_dirent
+   mov rax, 78
+   mov rdi, r8
+   mov rsi, buf
+   mov rdx, 18
+   syscall
+   cmp rax, 0
+   jle .l2
+   
+  jmp .loop
+
+  ;;Закрываем чтение из каталога
+.l2:   
+   mov rax, 3
+   mov rdi, r8
+   syscall
+
+
+.l1:
+  call exit

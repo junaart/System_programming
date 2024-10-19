@@ -1,0 +1,14 @@
+
+   0x0000000000401000 <_start+0>:	pop    rcx
+   0x0000000000401001 <_start+1>:	cmp    rcx,0x3
+   0x0000000000401005 <_start+5>:	jl     0x401036 <_start+54>
+   0x0000000000401007 <_start+7>:	mov    rax,QWORD PTR [rsp+0x8]
+   0x000000000040100c <_start+12>:	cmp    rax,0x0
+   0x0000000000401010 <_start+16>:	jne    0x401036 <_start+54>
+   0x0000000000401012 <_start+18>:	mov    rdi,QWORD PTR [rsp+0x10]
+   0x0000000000401017 <_start+23>:	movabs rsi,0x402128
+   0x0000000000401021 <_start+33>:	mov    rdx,0xc8
+   0x0000000000401028 <_start+40>:	mov    rax,0xc2
+   0x000000000040102f <_start+47>:	syscall 
+   0x0000000000401031 <_start+49>:	call   0x402010
+   0x0000000000401036 <_start+54>:	call   0x402000
